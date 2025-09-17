@@ -6,7 +6,7 @@
     "brand": "Brand A",
     "price": 99.99,
     "rating": 4.5,
-    "imageUrl": "https://example.com/images/headphones.jpg"
+    "imageUrl": "https://picsum.photos/1000/700"
   },
   {
     "id": 2,
@@ -15,7 +15,7 @@
     "brand": "Brand B",
     "price": 49.99,
     "rating": 4.0,
-    "imageUrl": "https://example.com/images/speaker.jpg"
+    "imageUrl": "https://picsum.photos/1000/700"
   },
   {
     "id": 3,
@@ -24,7 +24,7 @@
     "brand": "Brand C",
     "price": 59.99,
     "rating": 4.2,
-    "imageUrl": "https://example.com/images/shoes.jpg"
+    "imageUrl": "https://picsum.photos/1000/700"
   },
   {
     "id": 4,
@@ -33,7 +33,7 @@
     "brand": "Brand D",
     "price": 499.99,
     "rating": 4.8,
-    "imageUrl": "https://example.com/images/smartphone.jpg"
+    "imageUrl": "https://picsum.photos/1000/700"
   },
   {
     "id": 5,
@@ -42,6 +42,6 @@
     "brand": "Brand E",
     "price": 199.99,
     "rating": 4.7,
-    "imageUrl": "https://example.com/images/jacket.jpg"
+    "imageUrl": "https://picsum.photos/1000/700"
   }
 ]

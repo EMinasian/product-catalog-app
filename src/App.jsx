@@ -1,10 +1,10 @@
-
+import Table from "./component/Table"
 
 function App() {
 
   return (
     <>
-      <h1 className='text-amber-300'>Heading</h1>
+      <Table />
     </>
   )
 }
