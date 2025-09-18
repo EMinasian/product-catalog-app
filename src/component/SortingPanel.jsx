@@ -1,23 +1,22 @@
-import { useContext } from "react"
-import { FilterContext } from "../contexts/FilterContext"
+import { useContext } from "react";
+import { FilterContext } from "../contexts/FilterContext";
 import {
   RATING_KEY,
   PRICE_KEY,
   SORTING_ASCENDING,
   SORTING_DESCENDING,
   SORTING_CRITERIA_ID,
-  SORTING_DIRECTION_ID
+  SORTING_DIRECTION_ID,
 } from "../utils/consts";
 
 const SORTING_CRITERIA = [RATING_KEY, PRICE_KEY];
 const SORTING_DIRECTIONS = [SORTING_ASCENDING, SORTING_DESCENDING];
 
 export default function SortingPanel() {
+  const { sorting, setSorting } = useContext(FilterContext);
 
-  const { sorting, setSorting } = useContext(FilterContext)
-  
   return (
-    <div className="flex gap-2 bg-blue-950 text-amber-100 w-fit p-2 m-1 rounded-sm">
+    <div className="flex gap-2 bg-blue-950 text-amber-100 w-full p-2 m-1 rounded-sm">
       Sorting
       <select
         className="bg-blue-400 text-black"
@@ -25,7 +24,10 @@ export default function SortingPanel() {
         name={SORTING_CRITERIA_ID}
         id={SORTING_CRITERIA_ID}
         onChange={(e) => {
-          setSorting((prev) => ({ ...prev, [SORTING_CRITERIA_ID]: e.target.value }));
+          setSorting((prev) => ({
+            ...prev,
+            [SORTING_CRITERIA_ID]: e.target.value,
+          }));
         }}
       >
         <option value="" disabled>
@@ -41,7 +43,10 @@ export default function SortingPanel() {
         name={SORTING_DIRECTION_ID}
         id={SORTING_DIRECTION_ID}
         onChange={(e) => {
-          setSorting((prev) => ({ ...prev, [SORTING_DIRECTION_ID]: e.target.value }));
+          setSorting((prev) => ({
+            ...prev,
+            [SORTING_DIRECTION_ID]: e.target.value,
+          }));
         }}
       >
         <option value="" disabled>

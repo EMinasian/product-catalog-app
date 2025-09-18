@@ -44,8 +44,8 @@ export default function FilterBar() {
   const { handleReset } = useContext(FilterContext);
 
   return (
-    <div className="h-12 w-full bg-amber-600 px-10">
-      <div className="hidden md:flex">
+    <div className="h-12 md:h-full w-full md:w-[40%] bg-amber-600 md:p-10">
+      <div className="hidden md:flex flex-col">
         {DISCRETE_FILTER_VALUES.map(({ id, title, options }) => (
           <DiscreteFilter id={id} title={title} options={options} />
         ))}
@@ -53,7 +53,12 @@ export default function FilterBar() {
           <RangeFilter id={id} title={title} max={max} min={min} />
         ))}
         <SortingPanel />
-        <button onClick={handleReset}>Reset</button>
+        <button
+          className="p-2 m-1 rounded-sm bg-green-600 w-full"
+          onClick={handleReset}
+        >
+          Reset
+        </button>
       </div>
       <button
         className="md:hidden bg-blue-950 text-amber-50 p-2 m-1 rounded-sm"

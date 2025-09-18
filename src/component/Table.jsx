@@ -72,7 +72,7 @@ export default function Table() {
 
   return (
     <Suspense fallback={<span>Loading</span>}>
-      <div className="flex flex-col items-center sizes-full bg-blue-950">
+      <div className="flex flex-col md:flex-row items-center sizes-full bg-blue-950 md:px-12">
         <FilterProvider
           value={{ filter, setFilter, sorting, setSorting, handleReset }}
         >
