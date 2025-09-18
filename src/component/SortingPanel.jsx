@@ -1,0 +1,51 @@
+import {
+  RATING_KEY,
+  PRICE_KEY,
+  SORTING_ASCENDING,
+  SORTING_DESCENDING,
+  SORTING_CRITERIA_ID,
+  SORTING_DIRECTION_ID
+} from "../utils/consts";
+
+const SORTING_CRITERIA = [RATING_KEY, PRICE_KEY];
+const SORTING_DIRECTIONS = [SORTING_ASCENDING, SORTING_DESCENDING];
+
+export default function SortingPanel({ sorting, setSorting }) {
+  return (
+    <div className="flex gap-2 bg-blue-950 text-amber-100 w-fit p-2 m-1 rounded-sm">
+      Sorting
+      <select
+        className="bg-blue-400 text-black"
+        value={sorting[SORTING_CRITERIA_ID] || ""}
+        name={SORTING_CRITERIA_ID}
+        id={SORTING_CRITERIA_ID}
+        onChange={(e) => {
+          setSorting((prev) => ({ ...prev, [SORTING_CRITERIA_ID]: e.target.value }));
+        }}
+      >
+        <option value="" disabled>
+          Select sorting criteria
+        </option>
+        {SORTING_CRITERIA.map((option) => (
+          <option value={option}>{option}</option>
+        ))}
+      </select>
+      <select
+        className="bg-blue-400 text-black"
+        value={sorting[SORTING_DIRECTION_ID] || ""}
+        name={SORTING_DIRECTION_ID}
+        id={SORTING_DIRECTION_ID}
+        onChange={(e) => {
+          setSorting((prev) => ({ ...prev, [SORTING_DIRECTION_ID]: e.target.value }));
+        }}
+      >
+        <option value="" disabled>
+          Select sorting direction
+        </option>
+        {SORTING_DIRECTIONS.map((option) => (
+          <option value={option}>{option}</option>
+        ))}
+      </select>
+    </div>
+  );
+}

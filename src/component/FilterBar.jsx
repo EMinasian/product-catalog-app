@@ -1,6 +1,7 @@
 import { useState } from "react"
 import DiscreteFilter from "./DiscreteFilter"
 import RangeFilter from "./RangeFilter"
+import SortingPanel from "./SortingPanel"
 import { BRAND_KEY, CATEGORY_KEY, RATING_KEY, PRICE_KEY } from "../utils/consts"
 
 const DISCRETE_FILTER_VALUES = [
@@ -21,7 +22,7 @@ const RANGE_FILTER_VALUES = [
   }
 ]
 
-export default function FilterBar ({ filter, setFilter }) {
+export default function FilterBar ({ filter, setFilter, sorting, setSorting }) {
 
   const [openMobileFilter, setOpenMobileFilter] = useState(false)
 
@@ -34,6 +35,7 @@ export default function FilterBar ({ filter, setFilter }) {
         {
           RANGE_FILTER_VALUES.map(({ id, title, max, min }) => <RangeFilter filter={filter} setFilter={setFilter} id={id} title={title} max={max} min={min} />)
         }
+        <SortingPanel sorting={sorting} setSorting={setSorting} />
       </div>
       <button className="md:hidden bg-blue-950 text-amber-50 p-2 m-1 rounded-sm" onClick={() => setOpenMobileFilter(true)}>Filters</button>
       {
