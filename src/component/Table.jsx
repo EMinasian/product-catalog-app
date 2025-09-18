@@ -12,6 +12,7 @@ import {
   SORTING_CRITERIA_ID,
   SORTING_DIRECTION_ID,
   SORTING_ASCENDING,
+  NAME_SEARCH_KEY,
 } from "../utils/consts";
 
 const DISCRETE_FILTERS = [BRAND_KEY, CATEGORY_KEY];
@@ -43,7 +44,15 @@ export default function Table() {
       return accumulator;
     }, discreteFilteredData);
 
-    return rangeFilteredData;
+    const searchedData = rangeFilteredData.filter(
+      (item) =>
+        !filter[NAME_SEARCH_KEY] ||
+        item[NAME_SEARCH_KEY].toLowerCase().includes(
+          filter[NAME_SEARCH_KEY].toLowerCase()
+        )
+    );
+
+    return searchedData;
   };
 
   const filteredData = filterData();

@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import DiscreteFilter from "./DiscreteFilter";
 import RangeFilter from "./RangeFilter";
 import SortingPanel from "./SortingPanel";
+import SearchPanel from "./SearchPanel";
 import { FilterContext } from "../contexts/FilterContext";
 import {
   BRAND_KEY,
@@ -46,6 +47,7 @@ export default function FilterBar() {
   return (
     <div className="h-12 md:h-full w-full md:w-[40%] bg-amber-600 md:p-10">
       <div className="hidden md:flex flex-col">
+        <SearchPanel />
         {DISCRETE_FILTER_VALUES.map(({ id, title, options }) => (
           <DiscreteFilter id={id} title={title} options={options} />
         ))}
@@ -54,7 +56,7 @@ export default function FilterBar() {
         ))}
         <SortingPanel />
         <button
-          className="p-2 m-1 rounded-sm bg-green-600 w-full"
+          className="p-2 m-1 text-amber-50 rounded-sm bg-red-600 w-full"
           onClick={handleReset}
         >
           Reset
@@ -68,6 +70,7 @@ export default function FilterBar() {
       </button>
       {openMobileFilter && (
         <div className="fixed top-0 left-0 flex flex-col bg-amber-600 w-[80%] gap-2 px-2 py-6">
+          <SearchPanel />
           {DISCRETE_FILTER_VALUES.map(({ id, title, options }) => (
             <DiscreteFilter id={id} title={title} options={options} />
           ))}
