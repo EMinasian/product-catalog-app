@@ -45,12 +45,21 @@
     "imageUrl": "https://picsum.photos/1000/700"
   },
   {
-    "id": 2,
+    "id": 6,
     "name": "Bluetooth Speaker",
     "category": "Electronics",
     "brand": "Brand B",
     "price": 49.99,
     "rating": 3.0,
+    "imageUrl": "https://picsum.photos/1000/700"
+  },
+  {
+    "id": 7,
+    "name": "Bluetooth Speaker",
+    "category": "Electronics",
+    "brand": "Brand E",
+    "price": 60.99,
+    "rating": 2.0,
     "imageUrl": "https://picsum.photos/1000/700"
   }
 ]

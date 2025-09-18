@@ -4,6 +4,7 @@ import Product from "./Product";
 import FilterBar from "./FilterBar";
 import mockData from "../mock/data.json";
 import { FilterProvider } from "../contexts/FilterContext";
+import Pagination from "./Pagination";
 import {
   BRAND_KEY,
   CATEGORY_KEY,
@@ -17,10 +18,12 @@ import {
 
 const DISCRETE_FILTERS = [BRAND_KEY, CATEGORY_KEY];
 const RANGE_FILTERS = [RATING_KEY, PRICE_KEY];
+const POST_PER_PAGE = 6;
 
 export default function Table() {
   const [filter, setFilter] = useState({ [RATING_KEY]: 0, [PRICE_KEY]: 0 });
   const [sorting, setSorting] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [pendingReset, startResetTransition] = useTransition();
 
@@ -70,12 +73,18 @@ export default function Table() {
 
   const sortedData = sortData();
 
+  const paginatedData = sortedData.slice(
+    (currentPage - 1) * POST_PER_PAGE,
+    currentPage * POST_PER_PAGE
+  );
+
   const handleReset = () => {
     startResetTransition(async () => {
       // artificaial delay for loading purposes
       await new Promise((r) => setTimeout(r, 2000));
       setSorting({});
       setFilter({});
+      setCurrentPage(1);
     });
   };
 
@@ -83,29 +92,43 @@ export default function Table() {
     <Suspense fallback={<span>Loading</span>}>
       <div className="flex flex-col md:flex-row items-center sizes-full bg-blue-950 md:px-12">
         <FilterProvider
-          value={{ filter, setFilter, sorting, setSorting, handleReset }}
+          value={{
+            filter,
+            setFilter,
+            sorting,
+            setSorting,
+            handleReset,
+            setCurrentPage,
+          }}
         >
           <FilterBar />
         </FilterProvider>
-        <div className="grid md:grid-cols-3 grid-cols-1 w-[90%] md:w-[70%] bg-blue-400 p-4 md:p-8 gap-8">
-          {pendingReset ? (
-            <RingLoader loading size={250} />
-          ) : sortedData.length === 0 ? (
-            <span>No products found!</span>
-          ) : (
-            sortedData.map(
-              ({ name, category, brand, price, rating, imageUrl }) => (
-                <Product
-                  name={name}
-                  category={category}
-                  brand={brand}
-                  price={price}
-                  rating={rating}
-                  imageUrl={imageUrl}
-                />
+        <div className="flex flex-col items-center bg-blue-400 w-full">
+          <div className="grid md:grid-cols-3 grid-cols-1  p-4 md:p-8 gap-8">
+            {pendingReset ? (
+              <RingLoader loading size={250} />
+            ) : paginatedData.length === 0 ? (
+              <span>No products found!</span>
+            ) : (
+              paginatedData.map(
+                ({ name, category, brand, price, rating, imageUrl }) => (
+                  <Product
+                    name={name}
+                    category={category}
+                    brand={brand}
+                    price={price}
+                    rating={rating}
+                    imageUrl={imageUrl}
+                  />
+                )
               )
-            )
-          )}
+            )}
+          </div>
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalNumberOfPages={Math.ceil(sortedData.length / POST_PER_PAGE)}
+          />
         </div>
       </div>
     </Suspense>
