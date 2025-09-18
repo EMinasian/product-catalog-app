@@ -12,6 +12,7 @@ export default function Filter({ id, title, options }) {
         id={id}
         onChange={(e) => {
           setFilter((prev) => ({ ...prev, [id]: e.target.value }));
+          window.localStorage.setItem(id, JSON.stringify(e.target.value));
           setCurrentPage(1);
         }}
       >

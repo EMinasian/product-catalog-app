@@ -28,6 +28,10 @@ export default function SortingPanel() {
             ...prev,
             [SORTING_CRITERIA_ID]: e.target.value,
           }));
+          window.localStorage.setItem(
+            SORTING_CRITERIA_ID,
+            JSON.stringify(e.target.value)
+          );
         }}
       >
         <option value="" disabled>
@@ -47,6 +51,10 @@ export default function SortingPanel() {
             ...prev,
             [SORTING_DIRECTION_ID]: e.target.value,
           }));
+          window.localStorage.setItem(
+            SORTING_DIRECTION_ID,
+            JSON.stringify(e.target.value)
+          );
         }}
       >
         <option value="" disabled>

@@ -17,6 +17,7 @@ export default function RangeFilter({ id, title, min, max }) {
         onChange={(e) => {
           setFilter((prev) => ({ ...prev, [id]: e.target.value }));
           setCurrentPage(1);
+          window.localStorage.setItem(id, JSON.stringify(e.target.value));
         }}
         value={filter[id]}
       ></input>

@@ -20,9 +20,32 @@ const DISCRETE_FILTERS = [BRAND_KEY, CATEGORY_KEY];
 const RANGE_FILTERS = [RATING_KEY, PRICE_KEY];
 const POST_PER_PAGE = 6;
 
+const getInitialFilters = () =>
+  [...DISCRETE_FILTERS, ...RANGE_FILTERS].reduce(
+    (accumulator, currentKey) => {
+      const value = window?.localStorage?.getItem(currentKey);
+      return value
+        ? { ...accumulator, [currentKey]: JSON.parse(value) }
+        : accumulator;
+    },
+    { [RATING_KEY]: 0, [PRICE_KEY]: 0 }
+  );
+
+const getInitialSorting = () => {
+  const criteria = window?.localStorage?.getItem(SORTING_CRITERIA_ID);
+  const direction = window?.localStorage?.getItem(SORTING_DIRECTION_ID);
+  if (criteria && direction) {
+    return {
+      [SORTING_CRITERIA_ID]: JSON.parse(criteria),
+      [SORTING_DIRECTION_ID]: JSON.parse(direction),
+    };
+  }
+  return {};
+};
+
 export default function Table() {
-  const [filter, setFilter] = useState({ [RATING_KEY]: 0, [PRICE_KEY]: 0 });
-  const [sorting, setSorting] = useState({});
+  const [filter, setFilter] = useState(getInitialFilters);
+  const [sorting, setSorting] = useState(getInitialSorting);
   const [currentPage, setCurrentPage] = useState(1);
 
   const [pendingReset, startResetTransition] = useTransition();
@@ -85,6 +108,7 @@ export default function Table() {
       setSorting({});
       setFilter({});
       setCurrentPage(1);
+      window?.localStorage?.clear();
     });
   };
 
