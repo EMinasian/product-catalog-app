@@ -1,4 +1,5 @@
 import { Suspense, useState, useTransition } from "react";
+import { RingLoader } from "react-spinners";
 import Product from "./Product";
 import FilterBar from "./FilterBar";
 import mockData from "../mock/data.json";
@@ -79,7 +80,7 @@ export default function Table() {
         </FilterProvider>
         <div className="grid md:grid-cols-3 grid-cols-1 w-[90%] md:w-[70%] bg-blue-400 p-4 md:p-8 gap-8">
           {pendingReset ? (
-            <span>Loading!</span>
+            <RingLoader loading size={250} />
           ) : sortedData.length === 0 ? (
             <span>No products found!</span>
           ) : (
