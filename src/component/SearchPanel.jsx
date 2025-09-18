@@ -21,7 +21,7 @@ export default function SearchPanel() {
 
   return (
     <div className="flex bg-blue-950 text-amber-100 rounded-sm p-1 w-full m-1 justify-between">
-      <label for={NAME_SEARCH_KEY}>Search product name:</label>
+      <label htmlFor={NAME_SEARCH_KEY}>Search product name:</label>
       <input
         className="bg-blue-400 mx-1 h-12"
         ref={searchInput}

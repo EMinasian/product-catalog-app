@@ -135,8 +135,9 @@ export default function Table() {
               <span>No products found!</span>
             ) : (
               paginatedData.map(
-                ({ name, category, brand, price, rating, imageUrl }) => (
+                ({ name, category, brand, price, rating, imageUrl, id }) => (
                   <Product
+                    key={id}
                     name={name}
                     category={category}
                     brand={brand}

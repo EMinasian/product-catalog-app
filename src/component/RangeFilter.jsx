@@ -6,7 +6,7 @@ export default function RangeFilter({ id, title, min, max }) {
 
   return (
     <div className="flex gap-2 bg-blue-950 text-amber-100 w-full p-2 m-1 rounded-sm">
-      <label className="w-full" for={id}>{`${title} :`}</label>
+      <label className="w-full" htmlFor={id}>{`${title} :`}</label>
       <input
         className="w-full"
         type="range"

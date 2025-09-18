@@ -38,7 +38,9 @@ export default function SortingPanel() {
           Select sorting criteria
         </option>
         {SORTING_CRITERIA.map((option) => (
-          <option value={option}>{option}</option>
+          <option key={option} value={option}>
+            {option}
+          </option>
         ))}
       </select>
       <select
@@ -61,7 +63,9 @@ export default function SortingPanel() {
           Select sorting direction
         </option>
         {SORTING_DIRECTIONS.map((option) => (
-          <option value={option}>{option}</option>
+          <option key={option} value={option}>
+            {option}
+          </option>
         ))}
       </select>
     </div>

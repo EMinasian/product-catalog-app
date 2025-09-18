@@ -49,10 +49,10 @@ export default function FilterBar() {
       <div className="hidden md:flex flex-col">
         <SearchPanel />
         {DISCRETE_FILTER_VALUES.map(({ id, title, options }) => (
-          <DiscreteFilter id={id} title={title} options={options} />
+          <DiscreteFilter key={id} id={id} title={title} options={options} />
         ))}
         {RANGE_FILTER_VALUES.map(({ id, title, max, min }) => (
-          <RangeFilter id={id} title={title} max={max} min={min} />
+          <RangeFilter key={id} id={id} title={title} max={max} min={min} />
         ))}
         <SortingPanel />
         <button
@@ -72,10 +72,10 @@ export default function FilterBar() {
         <div className="fixed top-0 left-0 flex flex-col bg-amber-600 w-[80%] gap-2 px-2 py-6">
           <SearchPanel />
           {DISCRETE_FILTER_VALUES.map(({ id, title, options }) => (
-            <DiscreteFilter id={id} title={title} options={options} />
+            <DiscreteFilter key={id} id={id} title={title} options={options} />
           ))}
           {RANGE_FILTER_VALUES.map(({ id, title, max, min }) => (
-            <RangeFilter id={id} title={title} max={max} min={min} />
+            <RangeFilter key={id} id={id} title={title} max={max} min={min} />
           ))}
           <SortingPanel />
           <button onClick={() => setOpenMobileFilter(false)}>close</button>
