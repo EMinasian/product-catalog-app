@@ -1,3 +1,5 @@
+import { useContext } from "react"
+import { FilterContext } from "../contexts/FilterContext"
 import {
   RATING_KEY,
   PRICE_KEY,
@@ -10,7 +12,10 @@ import {
 const SORTING_CRITERIA = [RATING_KEY, PRICE_KEY];
 const SORTING_DIRECTIONS = [SORTING_ASCENDING, SORTING_DESCENDING];
 
-export default function SortingPanel({ sorting, setSorting }) {
+export default function SortingPanel() {
+
+  const { sorting, setSorting } = useContext(FilterContext)
+  
   return (
     <div className="flex gap-2 bg-blue-950 text-amber-100 w-fit p-2 m-1 rounded-sm">
       Sorting

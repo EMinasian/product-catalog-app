@@ -2,6 +2,7 @@ import { useState } from "react";
 import Product from "./Product";
 import FilterBar from "./FilterBar";
 import mockData from "../mock/data.json"
+import { FilterProvider } from "../contexts/FilterContext";
 import { BRAND_KEY, CATEGORY_KEY, RATING_KEY, PRICE_KEY, SORTING_CRITERIA_ID, SORTING_DIRECTION_ID, SORTING_ASCENDING } from "../utils/consts";
 
 const DISCRETE_FILTERS = [ BRAND_KEY, CATEGORY_KEY ]
@@ -42,7 +43,9 @@ export default function Table () {
 
   return (
     <div className="flex flex-col items-center sizes-full bg-blue-950">
-      <FilterBar filter={filter} setFilter={setFilter} sorting={sorting} setSorting={setSorting} />
+      <FilterProvider value={{ filter, setFilter, sorting, setSorting }}>
+        <FilterBar />
+      </FilterProvider>
       <div className="grid md:grid-cols-3 grid-cols-1 w-[90%] md:w-[70%] bg-blue-400 p-4 md:p-8 gap-8">
         {sortedData.map(({ name, category, brand, price, rating, imageUrl }) => 
           <Product name={name} category={category} brand={brand} price={price} rating={rating} imageUrl={imageUrl}/>)}

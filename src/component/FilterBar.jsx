@@ -22,7 +22,7 @@ const RANGE_FILTER_VALUES = [
   }
 ]
 
-export default function FilterBar ({ filter, setFilter, sorting, setSorting }) {
+export default function FilterBar () {
 
   const [openMobileFilter, setOpenMobileFilter] = useState(false)
 
@@ -30,23 +30,24 @@ export default function FilterBar ({ filter, setFilter, sorting, setSorting }) {
     <div className="h-12 w-full bg-amber-600 px-10">
       <div className="hidden md:flex">
         {
-          DISCRETE_FILTER_VALUES.map(({ id, title, options }) => <DiscreteFilter filter={filter} setFilter={setFilter} id={id} title={title} options={options} />)
+          DISCRETE_FILTER_VALUES.map(({ id, title, options }) => <DiscreteFilter id={id} title={title} options={options} />)
         }
         {
-          RANGE_FILTER_VALUES.map(({ id, title, max, min }) => <RangeFilter filter={filter} setFilter={setFilter} id={id} title={title} max={max} min={min} />)
+          RANGE_FILTER_VALUES.map(({ id, title, max, min }) => <RangeFilter id={id} title={title} max={max} min={min} />)
         }
-        <SortingPanel sorting={sorting} setSorting={setSorting} />
+        <SortingPanel />
       </div>
       <button className="md:hidden bg-blue-950 text-amber-50 p-2 m-1 rounded-sm" onClick={() => setOpenMobileFilter(true)}>Filters</button>
       {
         openMobileFilter && (
           <div className="fixed top-0 left-0 flex flex-col bg-amber-600 w-[80%] gap-2 px-2 py-6">
             {
-              DISCRETE_FILTER_VALUES.map(({ id, title, options }) => <DiscreteFilter filter={filter} setFilter={setFilter} id={id} title={title} options={options} />)
+              DISCRETE_FILTER_VALUES.map(({ id, title, options }) => <DiscreteFilter id={id} title={title} options={options} />)
             }
             {
-              RANGE_FILTER_VALUES.map(({ id, title, max, min }) => <RangeFilter filter={filter} setFilter={setFilter} id={id} title={title} max={max} min={min} />)
+              RANGE_FILTER_VALUES.map(({ id, title, max, min }) => <RangeFilter id={id} title={title} max={max} min={min} />)
             }
+            <SortingPanel />
             <button onClick={() => setOpenMobileFilter(false)}>close</button>
           </div>
         )
