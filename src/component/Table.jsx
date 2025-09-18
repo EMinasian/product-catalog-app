@@ -2,20 +2,30 @@ import { useState } from "react";
 import Product from "./Product";
 import FilterBar from "./FilterBar";
 import mockData from "../mock/data.json"
-import { BRAND_KEY, CATEGORY_KEY } from "../utils/consts";
+import { BRAND_KEY, CATEGORY_KEY, RATING_KEY, PRICE_KEY } from "../utils/consts";
 
 const DISCRETE_FILTERS = [ BRAND_KEY, CATEGORY_KEY ]
+const RANGE_FILTERS = [ RATING_KEY, PRICE_KEY ]
 
 export default function Table () {
-  const [filter, setFilter] = useState({})
+  const [filter, setFilter] = useState({[RATING_KEY]: 0})
 
   const filterData = () => {
-    return DISCRETE_FILTERS.reduce((accumulator, current) => {
+    const discreteFilteredData = DISCRETE_FILTERS.reduce((accumulator, current) => {
       if (filter[current]) {
         return accumulator.filter(item => item[current] === filter[current])
       }
       return accumulator
     }, mockData)
+
+    const rangeFilteredData = RANGE_FILTERS.reduce((accumulator, current) => {
+      if (filter[current]) {
+        return accumulator.filter(item => item[current] >= filter[current])
+      }
+      return accumulator
+    }, discreteFilteredData)
+
+    return rangeFilteredData
   }
 
   const filteredData = filterData()

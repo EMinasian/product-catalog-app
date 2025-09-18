@@ -43,5 +43,14 @@
     "price": 199.99,
     "rating": 4.7,
     "imageUrl": "https://picsum.photos/1000/700"
+  },
+  {
+    "id": 2,
+    "name": "Bluetooth Speaker",
+    "category": "Electronics",
+    "brand": "Brand B",
+    "price": 49.99,
+    "rating": 3.0,
+    "imageUrl": "https://picsum.photos/1000/700"
   }
 ]
