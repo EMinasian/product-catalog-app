@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+button,
+select,
+input {
+  @apply cursor-pointer disabled:cursor-auto
+}
+
+#root,
+html,
+body {
+  @apply size-full
+}

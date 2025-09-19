@@ -114,7 +114,7 @@ export default function Table() {
 
   return (
     <Suspense fallback={<span>Loading</span>}>
-      <div className="flex flex-col md:flex-row items-center sizes-full bg-blue-950 md:px-12">
+      <div className="flex flex-col md:flex-row items-center sizes-full bg-blue-950 md:px-12 h-full">
         <FilterProvider
           value={{
             filter,
@@ -127,7 +127,7 @@ export default function Table() {
         >
           <FilterBar />
         </FilterProvider>
-        <div className="flex flex-col items-center bg-blue-400 w-full">
+        <div className="flex flex-col items-center bg-blue-400 md:size-full size-screen pb-8">
           <div className="grid md:grid-cols-3 grid-cols-1  p-4 md:p-8 gap-8">
             {pendingReset ? (
               <RingLoader loading size={250} />
