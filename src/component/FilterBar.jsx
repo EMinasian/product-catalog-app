@@ -45,7 +45,10 @@ export default function FilterBar() {
   const { handleReset } = useContext(FilterContext);
 
   return (
-    <div className="h-12 md:h-full w-full md:w-[40%] bg-amber-600 md:p-10">
+    <div
+      className="h-12 md:h-full w-full md:w-[40%] bg-amber-600 md:p-10"
+      data-testid="filter-bar"
+    >
       <div className="hidden md:flex flex-col">
         <SearchPanel />
         {DISCRETE_FILTER_VALUES.map(({ id, title, options }) => (
