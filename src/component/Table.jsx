@@ -47,6 +47,7 @@ export default function Table() {
   const [filter, setFilter] = useState(getInitialFilters);
   const [sorting, setSorting] = useState(getInitialSorting);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [pendingReset, startResetTransition] = useTransition();
 
@@ -123,37 +124,42 @@ export default function Table() {
             setSorting,
             handleReset,
             setCurrentPage,
+            setIsLoading,
           }}
         >
           <FilterBar />
         </FilterProvider>
-        <div className="flex flex-col items-center bg-blue-400 md:size-full size-screen pb-8">
-          <div className="grid md:grid-cols-3 grid-cols-1  p-4 md:p-8 gap-8">
-            {pendingReset ? (
-              <RingLoader loading size={250} />
-            ) : paginatedData.length === 0 ? (
-              <span>No products found!</span>
-            ) : (
-              paginatedData.map(
-                ({ name, category, brand, price, rating, imageUrl, id }) => (
-                  <Product
-                    key={id}
-                    name={name}
-                    category={category}
-                    brand={brand}
-                    price={price}
-                    rating={rating}
-                    imageUrl={imageUrl}
-                  />
-                )
-              )
-            )}
-          </div>
-          <Pagination
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalNumberOfPages={Math.ceil(sortedData.length / POST_PER_PAGE)}
-          />
+        <div className="flex flex-col items-center bg-blue-400 md:size-full size-screen pb-8 justify-center">
+          {pendingReset || isLoading ? (
+            <RingLoader loading size={250} />
+          ) : paginatedData.length === 0 ? (
+            <span>No products found!</span>
+          ) : (
+            <>
+              <div className="grid md:grid-cols-3 md:grid-rows-2 grid-cols-1  p-4 md:p-8 gap-8">
+                {paginatedData.map(
+                  ({ name, category, brand, price, rating, imageUrl, id }) => (
+                    <Product
+                      key={id}
+                      name={name}
+                      category={category}
+                      brand={brand}
+                      price={price}
+                      rating={rating}
+                      imageUrl={imageUrl}
+                    />
+                  )
+                )}
+              </div>
+              <Pagination
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalNumberOfPages={Math.ceil(
+                  sortedData.length / POST_PER_PAGE
+                )}
+              />
+            </>
+          )}
         </div>
       </div>
     </Suspense>
