@@ -136,7 +136,10 @@ export default function Table() {
             <span>No products found!</span>
           ) : (
             <>
-              <div className="grid md:grid-cols-3 md:grid-rows-2 grid-cols-1  p-4 md:p-8 gap-8">
+              <div
+                data-testid="products-panel"
+                className="grid md:grid-cols-3 md:grid-rows-2 grid-cols-1  p-4 md:p-8 gap-8"
+              >
                 {paginatedData.map(
                   ({ name, category, brand, price, rating, imageUrl, id }) => (
                     <Product
