@@ -23,6 +23,7 @@ export default function SearchPanel() {
     <div className="flex flex-col md:flex-row bg-blue-950 text-amber-100 rounded-sm p-1 w-full m-1 justify-between gap-1">
       <label htmlFor={NAME_SEARCH_KEY}>Search product name:</label>
       <input
+        data-testid="search-input"
         className="bg-blue-400 min-h-12 size-full"
         ref={searchInput}
         type="text"

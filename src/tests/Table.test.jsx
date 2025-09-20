@@ -85,6 +85,7 @@ describe("Table", () => {
     fireEvent.change(ratingFilter[0], { target: { value: 4 } });
 
     // Effect of single filter
+    const productsPanel = screen.getByTestId("products-panel");
     expect(productsPanel.childNodes).toHaveLength(5);
 
     const priceFilter = screen.getAllByTestId("price-filter");
@@ -122,5 +123,27 @@ describe("Table", () => {
       Number(within(post).getByTestId("price").textContent)
     );
     expect(isSorted(prices, "des")).toBeTruthy();
+  });
+
+  test("Searching", async () => {
+    jest.useFakeTimers();
+
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const searchInput = screen.getAllByTestId("search-input");
+    await user.type(searchInput[0], "wire");
+
+    const searchButton = screen.getAllByRole("button", { name: "Search" });
+    await user.click(searchButton[0]);
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    await waitFor(() => {
+      const productsPanel = screen.getByTestId("products-panel");
+      expect(productsPanel.childNodes).toHaveLength(1);
+    });
+
+    jest.useRealTimers();
   });
 });
