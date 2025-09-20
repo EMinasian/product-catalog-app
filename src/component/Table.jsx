@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState, useTransition } from "react";
+import { Suspense, useEffect, useState, useTransition, useMemo } from "react";
 import { RingLoader } from "react-spinners";
 import Product from "./Product";
 import FilterBar from "./FilterBar";
@@ -100,8 +100,10 @@ export default function Table() {
     fetchData();
   }, []);
 
-  const filteredData = filterData(filter, data);
-  const sortedData = sortData(sorting, filteredData);
+  const sortedData = useMemo(() => {
+    const filteredData = filterData(filter, data);
+    return sortData(sorting, filteredData);
+  }, [JSON.stringify(filter), JSON.stringify(sorting), data]);
 
   const paginatedData = sortedData.slice(
     (currentPage - 1) * POST_PER_PAGE,
