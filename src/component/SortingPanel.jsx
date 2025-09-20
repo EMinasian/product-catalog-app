@@ -16,7 +16,7 @@ export default function SortingPanel() {
   const { sorting, setSorting } = useContext(FilterContext);
 
   return (
-    <div className="flex gap-2 bg-blue-950 text-amber-100 w-full p-2 m-1 rounded-sm">
+    <div className="flex md:flex-row flex-col gap-2 bg-blue-950 text-amber-100 w-full p-2 m-1 rounded-sm">
       Sorting
       <select
         className="bg-blue-400 text-black"
