@@ -43,6 +43,46 @@ const getInitialSorting = () => {
   return {};
 };
 
+const filterData = (filter, data) => {
+  const discreteFilteredData = DISCRETE_FILTERS.reduce(
+    (accumulator, current) => {
+      if (filter[current]) {
+        return accumulator.filter((item) => item[current] === filter[current]);
+      }
+      return accumulator;
+    },
+    data
+  );
+
+  const rangeFilteredData = RANGE_FILTERS.reduce((accumulator, current) => {
+    if (filter[current]) {
+      return accumulator.filter((item) => item[current] >= filter[current]);
+    }
+    return accumulator;
+  }, discreteFilteredData);
+
+  const searchedData = rangeFilteredData.filter(
+    (item) =>
+      !filter[NAME_SEARCH_KEY] ||
+      item[NAME_SEARCH_KEY].toLowerCase().includes(
+        filter[NAME_SEARCH_KEY].toLowerCase()
+      )
+  );
+
+  return searchedData;
+};
+
+const sortData = (sorting, data) => {
+  if (!sorting[SORTING_CRITERIA_ID] || !sorting[SORTING_DIRECTION_ID]) {
+    return data;
+  }
+  return data.sort(
+    (a, b) =>
+      (a[sorting[SORTING_CRITERIA_ID]] - b[sorting[SORTING_CRITERIA_ID]]) *
+      (sorting[SORTING_DIRECTION_ID] === SORTING_ASCENDING ? 1 : -1)
+  );
+};
+
 export default function Table() {
   const [filter, setFilter] = useState(getInitialFilters);
   const [sorting, setSorting] = useState(getInitialSorting);
@@ -60,51 +100,8 @@ export default function Table() {
     fetchData();
   }, []);
 
-  const filterData = () => {
-    const discreteFilteredData = DISCRETE_FILTERS.reduce(
-      (accumulator, current) => {
-        if (filter[current]) {
-          return accumulator.filter(
-            (item) => item[current] === filter[current]
-          );
-        }
-        return accumulator;
-      },
-      data
-    );
-
-    const rangeFilteredData = RANGE_FILTERS.reduce((accumulator, current) => {
-      if (filter[current]) {
-        return accumulator.filter((item) => item[current] >= filter[current]);
-      }
-      return accumulator;
-    }, discreteFilteredData);
-
-    const searchedData = rangeFilteredData.filter(
-      (item) =>
-        !filter[NAME_SEARCH_KEY] ||
-        item[NAME_SEARCH_KEY].toLowerCase().includes(
-          filter[NAME_SEARCH_KEY].toLowerCase()
-        )
-    );
-
-    return searchedData;
-  };
-
-  const filteredData = filterData();
-
-  const sortData = () => {
-    if (!sorting[SORTING_CRITERIA_ID] || !sorting[SORTING_DIRECTION_ID]) {
-      return filteredData;
-    }
-    return filteredData.sort(
-      (a, b) =>
-        (a[sorting[SORTING_CRITERIA_ID]] - b[sorting[SORTING_CRITERIA_ID]]) *
-        (sorting[SORTING_DIRECTION_ID] === SORTING_ASCENDING ? 1 : -1)
-    );
-  };
-
-  const sortedData = sortData();
+  const filteredData = filterData(filter, data);
+  const sortedData = sortData(sorting, filteredData);
 
   const paginatedData = sortedData.slice(
     (currentPage - 1) * POST_PER_PAGE,
