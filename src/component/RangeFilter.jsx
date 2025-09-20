@@ -1,8 +1,14 @@
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { FilterContext } from "../contexts/FilterContext";
 
 export default function RangeFilter({ id, title, min, max }) {
   const { filter, setFilter, setCurrentPage } = useContext(FilterContext);
+
+  const onChange = useCallback((e) => {
+    setFilter((prev) => ({ ...prev, [id]: e.target.value }));
+    setCurrentPage(1);
+    window.localStorage.setItem(id, JSON.stringify(e.target.value));
+  }, []);
 
   return (
     <div className="flex gap-2 bg-blue-950 text-amber-100 w-full p-2 m-1 rounded-sm">
@@ -15,11 +21,7 @@ export default function RangeFilter({ id, title, min, max }) {
         min={min}
         max={max}
         id={id}
-        onChange={(e) => {
-          setFilter((prev) => ({ ...prev, [id]: e.target.value }));
-          setCurrentPage(1);
-          window.localStorage.setItem(id, JSON.stringify(e.target.value));
-        }}
+        onChange={onChange}
         value={filter[id]}
       ></input>
       <span>{filter[id]}</span>

@@ -1,4 +1,4 @@
-import { useRef, useContext } from "react";
+import { useRef, useContext, useCallback } from "react";
 import { FilterContext } from "../contexts/FilterContext";
 import { NAME_SEARCH_KEY } from "../utils/consts";
 
@@ -6,7 +6,7 @@ export default function SearchPanel() {
   const searchInput = useRef("");
   const { setFilter, setIsLoading } = useContext(FilterContext);
 
-  const handleSearch = () => {
+  const handleSearch = useCallback(() => {
     let timeoutId;
     setIsLoading(true);
     clearTimeout(timeoutId);
@@ -17,7 +17,7 @@ export default function SearchPanel() {
       }));
       setIsLoading(false);
     }, 1 * 2000);
-  };
+  }, []);
 
   return (
     <div className="flex flex-col md:flex-row bg-blue-950 text-amber-100 rounded-sm p-1 w-full m-1 justify-between gap-1">

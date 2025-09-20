@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useCallback } from "react";
 import DiscreteFilter from "./DiscreteFilter";
 import RangeFilter from "./RangeFilter";
 import SortingPanel from "./SortingPanel";
@@ -45,7 +45,7 @@ export default function FilterBar() {
   const { startResetTransition, setSorting, setFilter, setCurrentPage } =
     useContext(FilterContext);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     startResetTransition(async () => {
       // artificaial delay for loading purposes
       await new Promise((r) => setTimeout(r, 2000));
@@ -54,7 +54,7 @@ export default function FilterBar() {
       setCurrentPage(1);
       window?.localStorage?.clear();
     });
-  };
+  }, []);
 
   return (
     <div
