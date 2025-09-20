@@ -1,8 +1,8 @@
-import { Suspense, useState, useTransition } from "react";
+import { Suspense, useEffect, useState, useTransition } from "react";
 import { RingLoader } from "react-spinners";
 import Product from "./Product";
 import FilterBar from "./FilterBar";
-import mockData from "../mock/data.json";
+import getData from "../utils/getData";
 import { FilterProvider } from "../contexts/FilterContext";
 import Pagination from "./Pagination";
 import {
@@ -48,8 +48,17 @@ export default function Table() {
   const [sorting, setSorting] = useState(getInitialSorting);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState([]);
 
   const [pendingReset, startResetTransition] = useTransition();
+
+  useEffect(() => {
+    async function fetchData() {
+      const { data } = await getData();
+      setData(data);
+    }
+    fetchData();
+  }, []);
 
   const filterData = () => {
     const discreteFilteredData = DISCRETE_FILTERS.reduce(
@@ -61,7 +70,7 @@ export default function Table() {
         }
         return accumulator;
       },
-      mockData
+      data
     );
 
     const rangeFilteredData = RANGE_FILTERS.reduce((accumulator, current) => {

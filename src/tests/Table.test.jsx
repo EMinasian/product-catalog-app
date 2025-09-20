@@ -6,9 +6,11 @@ import {
   cleanup,
   fireEvent,
   within,
+  waitFor,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
+import mockData from "../mock/data.json";
 
 import React from "react";
 
@@ -19,13 +21,6 @@ const isSorted = (arr, direction) => {
         return false;
       }
     } else {
-      console.log(
-        "arr[i]",
-        arr[i],
-        "arr[i + 1]",
-        arr[i + 1],
-        arr[i] < arr[i + 1]
-      );
       if (arr[i] < arr[i + 1]) {
         return false;
       }
@@ -34,29 +29,38 @@ const isSorted = (arr, direction) => {
   return true;
 };
 
+jest.mock("../utils/getData", () => {
+  return {
+    __esModule: true,
+    default: jest.fn(() => {
+      return { data: mockData };
+    }),
+  };
+});
+
 describe("Table", () => {
   afterEach(() => {
     cleanup();
     localStorage.clear();
   });
 
-  test("Renders the table of products for desktop", () => {
+  beforeEach(async () => {
     render(<Table />);
+    await waitFor(() => {
+      const productsPanel = screen.getByTestId("products-panel");
+      expect(productsPanel.childNodes).toHaveLength(6);
 
-    const filterBar = screen.getByTestId("filter-bar");
-    expect(filterBar).toBeInTheDocument();
+      const filterBar = screen.getByTestId("filter-bar");
+      expect(filterBar).toBeInTheDocument();
 
-    const productsPanel = screen.getByTestId("products-panel");
-    expect(productsPanel.childNodes).toHaveLength(6);
-
-    const paginationPanel = screen.getByTestId("products-panel");
-    expect(paginationPanel).toBeInTheDocument();
+      const paginationPanel = screen.getByTestId("pagination-panel");
+      expect(paginationPanel).toBeInTheDocument();
+    });
   });
 
   test("Pagination", async () => {
-    render(<Table />);
-
     const user = userEvent.setup();
+
     const previousButton = screen.getByText("Previous");
     expect(previousButton).toBeDisabled();
 
@@ -69,8 +73,6 @@ describe("Table", () => {
   });
 
   test("Discrete filtering", async () => {
-    render(<Table />);
-
     const user = userEvent.setup();
 
     const categoryFilter = screen.getAllByTestId("category-filter");
@@ -93,8 +95,6 @@ describe("Table", () => {
   });
 
   test("Range filtering", async () => {
-    render(<Table />);
-
     const productsPanel = screen.getByTestId("products-panel");
     expect(productsPanel.childNodes).toHaveLength(6);
 
@@ -113,8 +113,6 @@ describe("Table", () => {
   });
 
   test("Sorting", async () => {
-    render(<Table />);
-
     const user = userEvent.setup();
 
     const sortingCriteria = screen.getAllByTestId("test-sorting-criteria");
