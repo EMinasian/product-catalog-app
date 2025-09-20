@@ -58,8 +58,10 @@ describe("Table", () => {
     expect(nextButton).toBeDisabled();
   });
 
-  test("Discrete filtering", async () => {
-    const user = userEvent.setup();
+  test("Discrete filtering with reset", async () => {
+    jest.useFakeTimers();
+
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
     const categoryFilter = screen.getAllByTestId("category-filter");
     await act(async () => user.selectOptions(categoryFilter[0], "Electronics"));
@@ -68,16 +70,31 @@ describe("Table", () => {
     const productsPanel = screen.getByTestId("products-panel");
     expect(productsPanel.childNodes).toHaveLength(5);
 
-    // Simultanoius effect of filters
+    // Simultaneous effect of filters
     const brandFilter = screen.getAllByTestId("brand-filter");
     await act(async () => user.selectOptions(brandFilter[0], "Brand A"));
-
     expect(productsPanel.childNodes).toHaveLength(1);
 
     // Display not found message
     await act(async () => user.selectOptions(brandFilter[0], "Brand C"));
     const notFound = screen.getByText("No products found!");
     expect(notFound).toBeInTheDocument();
+
+    // Reset functionality
+    const resetButton = screen.getAllByRole("button", { name: "Reset" });
+    await user.click(resetButton[0]);
+
+    // Fast-forward the artificial delay
+    await act(async () => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    await waitFor(() => {
+      const productsPanel = screen.getByTestId("products-panel");
+      expect(productsPanel.childNodes).toHaveLength(6);
+    });
+
+    jest.useRealTimers();
   });
 
   test("Range filtering", async () => {
