@@ -111,17 +111,6 @@ export default function Table() {
     currentPage * POST_PER_PAGE
   );
 
-  const handleReset = () => {
-    startResetTransition(async () => {
-      // artificaial delay for loading purposes
-      await new Promise((r) => setTimeout(r, 2000));
-      setSorting({});
-      setFilter({});
-      setCurrentPage(1);
-      window?.localStorage?.clear();
-    });
-  };
-
   return (
     <Suspense fallback={<span>Loading</span>}>
       <div className="flex flex-col md:flex-row items-center sizes-full bg-blue-950 md:px-12 h-full">
@@ -131,7 +120,7 @@ export default function Table() {
             setFilter,
             sorting,
             setSorting,
-            handleReset,
+            startResetTransition,
             setCurrentPage,
             setIsLoading,
           }}

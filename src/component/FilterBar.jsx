@@ -42,7 +42,19 @@ const RANGE_FILTER_VALUES = [
 export default function FilterBar() {
   const [openMobileFilter, setOpenMobileFilter] = useState(false);
 
-  const { handleReset } = useContext(FilterContext);
+  const { startResetTransition, setSorting, setFilter, setCurrentPage } =
+    useContext(FilterContext);
+
+  const handleReset = () => {
+    startResetTransition(async () => {
+      // artificaial delay for loading purposes
+      await new Promise((r) => setTimeout(r, 2000));
+      setSorting({});
+      setFilter({});
+      setCurrentPage(1);
+      window?.localStorage?.clear();
+    });
+  };
 
   return (
     <div
