@@ -11,23 +11,9 @@ import {
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import mockData from "../mock/data.json";
+import { isSorted } from "./utils";
 
 import React from "react";
-
-const isSorted = (arr, direction) => {
-  for (let i = 0; i < arr.length - 1; i++) {
-    if (direction === "asc") {
-      if (arr[i] > arr[i + 1]) {
-        return false;
-      }
-    } else {
-      if (arr[i] < arr[i + 1]) {
-        return false;
-      }
-    }
-  }
-  return true;
-};
 
 jest.mock("../utils/getData", () => {
   return {
