@@ -5,11 +5,34 @@ import {
   act,
   cleanup,
   fireEvent,
+  within,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 
 import React from "react";
+
+const isSorted = (arr, direction) => {
+  for (let i = 0; i < arr.length - 1; i++) {
+    if (direction === "asc") {
+      if (arr[i] > arr[i + 1]) {
+        return false;
+      }
+    } else {
+      console.log(
+        "arr[i]",
+        arr[i],
+        "arr[i + 1]",
+        arr[i + 1],
+        arr[i] < arr[i + 1]
+      );
+      if (arr[i] < arr[i + 1]) {
+        return false;
+      }
+    }
+  }
+  return true;
+};
 
 describe("Table", () => {
   afterEach(() => {
@@ -87,5 +110,36 @@ describe("Table", () => {
     // Effect of single filter
     const notFound = screen.getByText("No products found!");
     expect(notFound).toBeInTheDocument();
+  });
+
+  test("Sorting", async () => {
+    render(<Table />);
+
+    const user = userEvent.setup();
+
+    const sortingCriteria = screen.getAllByTestId("test-sorting-criteria");
+    await act(async () => user.selectOptions(sortingCriteria[0], "rating"));
+
+    const sortingDirection = screen.getAllByTestId("test-sorting-direction");
+    await act(async () => user.selectOptions(sortingDirection[0], "ascending"));
+
+    const productsPanel = screen.getByTestId("products-panel");
+
+    const rates = Array.from(productsPanel.childNodes).map(
+      (post) => within(post).getByTestId("rating").textContent
+    );
+    expect(isSorted(rates, "asc")).toBeTruthy();
+
+    localStorage.clear();
+
+    await act(async () => user.selectOptions(sortingCriteria[0], "price"));
+    await act(async () =>
+      user.selectOptions(sortingDirection[0], "descending")
+    );
+
+    const prices = Array.from(productsPanel.childNodes).map((post) =>
+      Number(within(post).getByTestId("price").textContent)
+    );
+    expect(isSorted(prices, "des")).toBeTruthy();
   });
 });

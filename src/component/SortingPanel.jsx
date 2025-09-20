@@ -19,6 +19,7 @@ export default function SortingPanel() {
     <div className="flex md:flex-row flex-col gap-2 bg-blue-950 text-amber-100 w-full p-2 m-1 rounded-sm">
       Sorting
       <select
+        data-testid={`test-${SORTING_CRITERIA_ID}`}
         className="bg-blue-400 text-black"
         value={sorting[SORTING_CRITERIA_ID] || ""}
         name={SORTING_CRITERIA_ID}
@@ -44,6 +45,7 @@ export default function SortingPanel() {
         ))}
       </select>
       <select
+        data-testid={`test-${SORTING_DIRECTION_ID}`}
         className="bg-blue-400 text-black"
         value={sorting[SORTING_DIRECTION_ID] || ""}
         name={SORTING_DIRECTION_ID}
