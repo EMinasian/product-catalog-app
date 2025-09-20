@@ -1,11 +1,22 @@
 import Table from "../component/Table";
-import { render, screen, act } from "@testing-library/react";
+import {
+  render,
+  screen,
+  act,
+  cleanup,
+  fireEvent,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 
 import React from "react";
 
 describe("Table", () => {
+  afterEach(() => {
+    cleanup();
+    localStorage.clear();
+  });
+
   test("Renders the table of products for desktop", () => {
     render(<Table />);
 
@@ -34,7 +45,7 @@ describe("Table", () => {
     expect(nextButton).toBeDisabled();
   });
 
-  test("Filtering", async () => {
+  test("Discrete filtering", async () => {
     render(<Table />);
 
     const user = userEvent.setup();
@@ -54,6 +65,26 @@ describe("Table", () => {
 
     // Display not found message
     await act(async () => user.selectOptions(brandFilter[0], "Brand C"));
+    const notFound = screen.getByText("No products found!");
+    expect(notFound).toBeInTheDocument();
+  });
+
+  test("Range filtering", async () => {
+    render(<Table />);
+
+    const productsPanel = screen.getByTestId("products-panel");
+    expect(productsPanel.childNodes).toHaveLength(6);
+
+    const ratingFilter = screen.getAllByTestId("rating-filter");
+    fireEvent.change(ratingFilter[0], { target: { value: 4 } });
+
+    // Effect of single filter
+    expect(productsPanel.childNodes).toHaveLength(5);
+
+    const priceFilter = screen.getAllByTestId("price-filter");
+    fireEvent.change(priceFilter[0], { target: { value: 500 } });
+
+    // Effect of single filter
     const notFound = screen.getByText("No products found!");
     expect(notFound).toBeInTheDocument();
   });

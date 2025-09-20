@@ -8,6 +8,7 @@ export default function RangeFilter({ id, title, min, max }) {
     <div className="flex gap-2 bg-blue-950 text-amber-100 w-full p-2 m-1 rounded-sm">
       <label className="w-full" htmlFor={id}>{`${title} :`}</label>
       <input
+        data-testid={`${id}-filter`}
         className="w-full"
         type="range"
         name={id}
