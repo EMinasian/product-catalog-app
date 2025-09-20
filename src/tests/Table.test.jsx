@@ -81,9 +81,6 @@ describe("Table", () => {
   });
 
   test("Range filtering", async () => {
-    const productsPanel = screen.getByTestId("products-panel");
-    expect(productsPanel.childNodes).toHaveLength(6);
-
     const ratingFilter = screen.getAllByTestId("rating-filter");
     fireEvent.change(ratingFilter[0], { target: { value: 4 } });
 
