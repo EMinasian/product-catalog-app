@@ -6,6 +6,7 @@ export default function Filter({ id, title, options }) {
   return (
     <div className="flex gap-2 bg-blue-950 text-amber-100 w-full p-2 m-1 rounded-sm">
       <select
+        data-testid={`${id}-filter`}
         className="bg-blue-400 text-black w-full"
         value={filter[id] || ""}
         name={id}
