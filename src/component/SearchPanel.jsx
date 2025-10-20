@@ -3,21 +3,26 @@ import { FilterContext } from "../contexts/FilterContext";
 import { NAME_SEARCH_KEY } from "../utils/consts";
 
 export default function SearchPanel() {
-  const searchInput = useRef("");
+  const searchInput = useRef(null);
+  const timeoutId = useRef(null);
+
   const { setFilter, setIsLoading } = useContext(FilterContext);
 
   const handleSearch = useCallback(() => {
-    let timeoutId;
+    if (timeoutId.current) {
+      clearTimeout(timeoutId.current);
+    }
+
     setIsLoading(true);
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
+
+    timeoutId.current = setTimeout(() => {
       setFilter((prev) => ({
         ...prev,
-        [NAME_SEARCH_KEY]: searchInput.current.value,
+        [NAME_SEARCH_KEY]: searchInput.current?.value || "",
       }));
       setIsLoading(false);
-    }, 1 * 2000);
-  }, []);
+    }, 2000);
+  }, [setFilter, setIsLoading]);
 
   return (
     <div className="flex flex-col md:flex-row bg-blue-950 text-amber-100 rounded-sm p-1 w-full m-1 justify-between gap-1">
